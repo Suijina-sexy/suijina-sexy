@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftDeploy - Plateforme de Déploiement Moderne</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-rocket text-blue-400 text-2xl"></i>
+                <span class="text-xl font-bold">SwiftDeploy</span>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <a href="#features" class="hover:text-blue-400 transition duration-300">Fonctionnalités</a>
+                <a href="#demo" class="hover:text-blue-400 transition duration-300">Démo</a>
+                <a href="#pricing" class="hover:text-blue-400 transition duration-300">Tarifs</a>
+                <button onclick="showLogin()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition duration-300">
+                    Se connecter
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-20">
+        <div class="container mx-auto text-center">
+            <h1 class="text-5xl font-bold mb-6">Déployez vos sites. <span class="text-white">Rapidement.</span></h1>
+            <p class="text-xl mb-8 text-blue-100">La plateforme qui rend le déploiement aussi simple qu'un push Git</p>
+            <div class="flex justify-center space-x-4">
+                <button onclick="startFreeTrial()" class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold pulse">
+                    <i class="fas fa-play mr-2"></i>Commencer gratuitement
+                </button>
+                <button onclick="scrollToDemo()" class="border border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-lg font-semibold transition duration-300">
+                    <i class="fas fa-eye mr-2"></i>Voir la démo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20 bg-gray-800">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Pourquoi choisir SwiftDeploy ?</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-700 p-6 rounded-lg card-hover">
+                    <div class="text-blue-400 text-2xl mb-4">
+                        <i class="fab fa-git"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Git Integration</h3>
+                    <p class="text-gray-300">Connectez votre repo GitHub, GitLab ou Bitbucket. Déployez à chaque push.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-gray-700 p-6 rounded-lg card-hover">
+                    <div class="text-blue-400 text-2xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Déploiements Instantanés</h3>
+                    <p class="text-gray-300">Notre CDN global assure des chargements ultra-rapides partout dans le monde.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-gray-700 p-6 rounded-lg card-hover">
+                    <div class="text-blue-400 text-2xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">SSL Automatique</h3>
+                    <p class="text-gray-300">Certificats SSL gratuits et renouvellement automatique pour tous vos sites.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Dashboard -->
+    <section id="demo" class="py-20 bg-gray-900">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Dashboard de Gestion</h2>
+            
+            <div class="bg-gray-800 rounded-lg p-6 max-w-4xl mx-auto">
+                <!-- Projects List -->
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold mb-4">Vos Projets</h3>
+                    <div class="space-y-4" id="projectsList">
+                        <!-- Les projets seront ajoutés dynamiquement ici -->
+                    </div>
+                </div>
+
+                <!-- Add Project Form -->
+                <div class="mb-6 p-4 bg-gray-700 rounded">
+                    <h4 class="font-semibold mb-3">Ajouter un nouveau projet</h4>
+                    <div class="flex space-x-4">
+                        <input type="text" id="projectName" placeholder="Nom du projet" class="flex-1 bg-gray-600 border border-gray-500 rounded px-3 py-2">
+                        <input type="text" id="repoUrl" placeholder="URL du repository Git" class="flex-1 bg-gray-600 border border-gray-500 rounded px-3 py-2">
+                        <button onclick="addProject()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">
+                            <i class="fas fa-plus mr-2"></i>Ajouter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Deploy Button -->
+                <div class="text-center">
+                    <button onclick="showDeployModal()" class="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-lg font-semibold">
+                        <i class="fas fa-rocket mr-2"></i>Déployer un Projet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 bg-gray-800">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Des Tarifs Simples</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <!-- Free Plan -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center card-hover">
+                    <h3 class="text-2xl font-bold mb-4">Gratuit</h3>
+                    <div class="text-3xl font-bold mb-6">0€<span class="text-sm text-gray-400">/mois</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>1 site personnel</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>100GB bande passante</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>SSL gratuit</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Déploiements instantanés</li>
+                    </ul>
+                    <button onclick="selectPlan('free')" class="w-full bg-gray-600 hover:bg-gray-500 py-2 rounded transition duration-300">
+                        Commencer
+                    </button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-blue-500 p-6 rounded-lg text-center card-hover transform scale-105">
+                    <div class="bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full inline-block mb-2">
+                        POPULAIRE
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Pro</h3>
+                    <div class="text-3xl font-bold mb-6">10€<span class="text-sm">/mois</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li><i class="fas fa-check text-white mr-2"></i>10 sites</li>
+                        <li><i class="fas fa-check text-white mr-2"></i>Bande passante illimitée</li>
+                        <li><i class="fas fa-check text-white mr-2"></i>Domaines personnalisés</li>
+                        <li><i class="fas fa-check text-white mr-2"></i>Analytics avancés</li>
+                    </ul>
+                    <button onclick="selectPlan('pro')" class="w-full bg-white text-blue-500 hover:bg-gray-100 py-2 rounded font-semibold transition duration-300">
+                        Essai gratuit 14 jours
+                    </button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="bg-gray-700 p-6 rounded-lg text-center card-hover">
+                    <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                    <div class="text-3xl font-bold mb-6">50€<span class="text-sm text-gray-400">/mois</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Sites illimités</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Support prioritaire</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>SLA 99.9%</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Features avancées</li>
+                    </ul>
+                    <button onclick="selectPlan('enterprise')" class="w-full bg-gray-600 hover:bg-gray-500 py-2 rounded transition duration-300">
+                        Nous contacter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8 border-t border-gray-700">
+        <div class="container mx-auto text-center">
+            <div class="mb-4">
+                <i class="fas fa-rocket text-blue-400 text-2xl"></i>
+                <span class="text-xl font-bold ml-2">SwiftDeploy</span>
+            </div>
+            <p class="text-gray-400 mb-2">La plateforme de déploiement moderne pour développeurs exigeants</p>
+            <p class="text-gray-500 text-sm">
+                <i class="fas fa-heart text-red-400 mr-1"></i> 
+                Powered by Lady Suijina
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-6 rounded-lg w-96">
+            <h3 class="text-xl font-bold mb-4">Connexion</h3>
+            <div class="space-y-4">
+                <input type="email" placeholder="Email" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2">
+                <input type="password" placeholder="Mot de passe" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2">
+                <button onclick="handleLogin()" class="w-full bg-blue-500 hover:bg-blue-600 py-2 rounded">
+                    Se connecter
+                </button>
+                <button onclick="hideModals()" class="w-full bg-gray-600 hover:bg-gray-500 py-2 rounded">
+                    Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="deployModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-6 rounded-lg w-96">
+            <h3 class="text-xl font-bold mb-4">Déployer un Projet</h3>
+            <div class="space-y-4">
+                <select id="projectSelect" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2">
+                    <option value="">Sélectionnez un projet</option>
+                </select>
+                <button onclick="startDeployment()" class="w-full bg-green-500 hover:bg-green-600 py-2 rounded">
+                    <i class="fas fa-rocket mr-2"></i>Lancer le déploiement
+                </button>
+                <button onclick="hideModals()" class="w-full bg-gray-600 hover:bg-gray-500 py-2 rounded">
+                    Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-6 rounded-lg w-96 text-center">
+            <i class="fas fa-check-circle text-green-400 text-5xl mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">Succès!</h3>
+            <p id="successMessage" class="text-gray-300 mb-4"></p>
+            <button onclick="hideModals()" class="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // État de l'application
+        let projects = [
+            { id: 1, name: 'portfolio-site', status: 'deployed', lastDeploy: 'Il y a 2 heures' },
+            { id: 2, name: 'ecommerce-app', status: 'deploying', lastDeploy: 'En cours...' }
+        ];
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProjectsList();
+            updateProjectSelect();
+        });
+
+        // Fonctions de navigation
+        function scrollToDemo() {
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Fonctions de modals
+        function showLogin() {
+            document.getElementById('loginModal').classList.remove('hidden');
+        }
+
+        function showDeployModal() {
+            if (projects.length === 0) {
+                showSuccess('Veuillez d\'abord ajouter un projet');
+                return;
+            }
+            document.getElementById('deployModal').classList.remove('hidden');
+        }
+
+        function hideModals() {
+            document.querySelectorAll('[id$="Modal"]').forEach(modal => {
+                modal.classList.add('hidden');
+            });
+        }
+
+        function showSuccess(message) {
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        // Gestion des projets
+        function addProject() {
+            const nameInput = document.getElementById('projectName');
+            const repoInput = document.getElementById('repoUrl');
+            
+            const name = nameInput.value.trim();
+            const repoUrl = repoInput.value.trim();
+            
+            if (!name) {
+                showSuccess('Veuillez entrer un nom de projet');
+                return;
+            }
+
+            const newProject = {
+                id: Date.now(),
+                name: name,
+                repoUrl: repoUrl || 'Non spécifié',
+                status: 'created',
+                lastDeploy: 'Jamais'
+            };
+
+            projects.push(newProject);
+            updateProjectsList();
+            updateProjectSelect();
+            
+            nameInput.value = '';
+            repoInput.value = '';
+            
+            showSuccess(`Projet "${name}" ajouté avec succès!`);
+        }
+
+        function updateProjectsList() {
+            const projectsList = document.getElementById('projectsList');
+            projectsList.innerHTML = '';
+
+            projects.forEach(project => {
+                const statusClass = project.status === 'deployed' ? 'bg-green-500' : 
+                                  project.status === 'deploying' ? 'bg-yellow-500' : 'bg-gray-500';
+                const statusText = project.status === 'deployed' ? 'En ligne' : 
+                                 project.status === 'deploying' ? 'En cours' : 'Créé';
+
+                const projectElement = `
+                    <div class="bg-gray-700 p-4 rounded flex justify-between items-center">
+                        <div>
+                            <h4 class="font-semibold">${project.name}</h4>
+                            <p class="text-sm text-gray-400">Dernier déploiement: ${project.lastDeploy}</p>
+                            ${project.repoUrl !== 'Non spécifié' ? `<p class="text-sm text-blue-400">${project.repoUrl}</p>` : ''}
+                        </div>
+                        <div class="flex space-x-2">
+                            <span class="${statusClass} text-xs px-2 py-1 rounded">${statusText}</span>
+                            <button onclick="viewProject(${project.id})" class="text-blue-400 hover:text-blue-300">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                projectsList.innerHTML += projectElement;
+            });
+        }
+
+        function updateProjectSelect() {
+            const select = document.getElementById('projectSelect');
+            select.innerHTML = '<option value="">Sélectionnez un projet</option>';
+            
+            projects.forEach(project => {
+                const option = document.createElement('option');
+                option.value = project.id;
+                option.textContent = project.name;
+                select.appendChild(option);
+            });
+        }
+
+        // Fonctions d'actions
+        function startFreeTrial() {
+            showSuccess('Bienvenue! Votre essai gratuit de 14 jours a commencé. Connectez-vous pour continuer.');
+        }
+
+        function handleLogin() {
+            showSuccess('Connexion réussie! Redirection vers votre dashboard...');
+            setTimeout(() => {
+                hideModals();
+            }, 2000);
+        }
+
+        function selectPlan(plan) {
+            const planNames = {
+                'free': 'Gratuit',
+                'pro': 'Pro',
+                'enterprise': 'Enterprise'
+            };
+            showSuccess(`Plan ${planNames[plan]} sélectionné! Redirection vers le paiement...`);
+        }
+
+        function startDeployment() {
+            const select = document.getElementById('projectSelect');
+            const projectId = parseInt(select.value);
+            
+            if (!projectId) {
+                showSuccess('Veuillez sélectionner un projet');
+                return;
+            }
+
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                project.status = 'deploying';
+                project.lastDeploy = 'En cours...';
+                updateProjectsList();
+                hideModals();
+                
+                // Simulation de déploiement
+                setTimeout(() => {
+                    project.status = 'deployed';
+                    project.lastDeploy = new Date().toLocaleTimeString();
+                    updateProjectsList();
+                    showSuccess(`Déploiement de "${project.name}" terminé avec succès!`);
+                }, 3000);
+                
+                showSuccess(`Déploiement de "${project.name}" en cours...`);
+            }
+        }
+
+        function viewProject(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                showSuccess(`Ouverture du projet "${project.name}" dans un nouvel onglet...`);
+            }
+        }
+
+        // Fermer les modals en cliquant à l'extérieur
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('fixed')) {
+                hideModals();
+            }
+        });
+    </script>
+</body>
+</html>
